@@ -1,0 +1,29 @@
+Query to use longest data can find for Name:
+
+UPDATE log
+SET name = (
+    SELECT name
+    FROM log AS sub
+    WHERE sub.call = log.call
+    ORDER BY LENGTH(name) DESC
+    LIMIT 1
+)
+WHERE call IN (
+    SELECT DISTINCT call FROM log
+);
+
+Query to update blanks for ( Unknown Op ):
+
+UPDATE log SET NAME='( Unknown Op)' WHERE NAME IS NULL OR TRIM(NAME) = '';
+
+Database Fields:
+
+    const QList<QString> dbFields = {"CALL", "QSO_DATE", "TIME_ON", "QSO_DATE_OFF", "TIME_OFF", "FREQ", "FREQ_RX", "BAND_RX", "STATION_CALLSIGN", "NAME", "QTH", "GRIDSQUARE", "MY_GRIDSQUARE", "BAND", "MODE", "TX_PWR", "RST_RCVD", "RST_SENT","COMMENT", "STATE"};
+
+    SELECT * FROM log WHERE IFNULL(NAME, '') = '';
+	
+	
+select * from log where TIME_ON > '235500' and TIME_OFF < '010000';
+	
+KO6UW|20240413|235930||000029|28.0745|28.075598|10M|VK3VM|JAMES F FEY||DN27no||10M|FT8|50.0|-01|-19|FT8  Sent: -19  Rcvd: -01|MT
+YF7RDM|20240529|235945||000044|28.0747|28.075898|10M|VK3VM|Yudi H. A. Tuwau||OI57rt||10M|FT8|50.0|-17|-13|FT8  Sent: -13  Rcvd: -17|
